@@ -300,7 +300,7 @@ function binarization(threshold){
 }
 
 async function judgement(){
-    document.getElementById("state_area").innerHTML = "判定中...";
+    document.getElementById("state_area").innerHTML = "AI読み込み中...";
     document.getElementById("option_area").hidden = true;
     document.getElementById("output_area").hidden = false;
     let characters = document.getElementById("characters").value;
@@ -319,6 +319,7 @@ async function judgement(){
     }
 
     let model = await tf.loadLayersModel("./model/tfjs_model_2/model.json")
+    document.getElementById("state_area").innerHTML = "判定中...";
     for(let i = 0;i<characters;i++){
         //写真
         let index_td = document.createElement("td");
