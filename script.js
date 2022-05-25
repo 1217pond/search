@@ -10,7 +10,7 @@ let click = false;
 let points = [{x:0.1,y:0.1},{x:0.9,y:0.1},{x:0.9,y:0.9},{x:0.1,y:0.9}];
 let out_points = [{x:0.05,y:0.2},{x:0.95,y:0.2},{x:0.95,y:0.8},{x:0.05,y:0.8}];
 document.getElementById("update").addEventListener("click",get_camera);
-document.getElementById("shutter").addEventListener("click",trim);
+document.getElementById("shutter").addEventListener("click",() => {trim(false)});
 document.getElementById("upload").addEventListener("click",() => {trim(true)});
 
 (async () => {
@@ -81,8 +81,10 @@ function trim(file=false){
             width: img.width,
             height: height
         };
+        console.log(setting);
     }else{
         setting = stream.getVideoTracks()[0].getSettings();
+        
     }
     canvas.width = setting.width;
     canvas.height = setting.height;
