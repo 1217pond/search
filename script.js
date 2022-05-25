@@ -5,6 +5,7 @@ let canvas_img = document.createElement("canvas");
 let stream;
 let shaped_uri;
 let height;
+let width;
 let click = false;
 
 let points = [{x:0.1,y:0.1},{x:0.9,y:0.1},{x:0.9,y:0.9},{x:0.1,y:0.9}];
@@ -30,6 +31,7 @@ document.getElementById("upload").addEventListener("click",() => {trim(true)});
                         img.width = 1000;
                     }
                     height = img.height;
+                    width = img.width;
                 };
             }
             reader.readAsDataURL(is.files[0]);
@@ -76,12 +78,10 @@ function trim(file=false){
     let center = document.getElementById("center");
     let setting;
     if(file){
-        let img = document.getElementById("preview_img");
         setting = {
-            width: img.width,
+            width: width,
             height: height
         };
-        console.log("w:",img.width,",height:",height);
     }else{
         setting = stream.getVideoTracks()[0].getSettings();
         
@@ -100,13 +100,7 @@ function trim(file=false){
     //線を描画
     draw_line(ctx,points,canvas.width,canvas.height);
 
-    window.addEventListener('mousedown',(e) => {
-        click = true;
-    });
-    window.addEventListener('mouseup',(e) => {
-        click = false;
-    });
-    canvas.addEventListener('mousemove', (e) => {
+    let shape_func = (e) => {
         if(click){
             let rect = e.target.getBoundingClientRect();
             x = (e.clientX - rect.left)/500;
@@ -135,7 +129,26 @@ function trim(file=false){
             
             }
         }
+    };
+
+    window.addEventListener('mousedown',(e) => {
+        click = true;
     });
+    window.addEventListener('touchstart',(e) => {
+        click = true;
+    });
+    window.addEventListener('mouseup',(e) => {
+        click = false;
+    });
+    window.addEventListener('touchend',(e) => {
+        click = false;
+    });
+    canvas.addEventListener('mousemove', shape_func);
+    canvas.addEventListener('touchmove',(e) => {
+        e.preventDefault();
+        shape_func(e);
+    });
+
     document.getElementById("trim").addEventListener("click",() => {
         shape(canvas.width,canvas.height);
     });
@@ -171,7 +184,7 @@ function shape(w,h){
 
         draw_line(pctx,out_points,w,h,shaped_uri);
 
-        preview.addEventListener('mousemove', (e) => {
+        let shape_func = (e) => {
             if(click){
                 let rect = e.target.getBoundingClientRect();
                 x = (e.clientX - rect.left)/500;
@@ -211,6 +224,12 @@ function shape(w,h){
                     draw_line(pctx,out_points,w,h,shaped_uri);
                 }
             }
+        };
+
+        preview.addEventListener('mousemove', shape_func);
+        preview.addEventListener('touchmove',(e) => {
+            e.preventDefault();
+            shape_func(e);
         });
     });
     document.getElementById("resize").addEventListener("click",() => {
