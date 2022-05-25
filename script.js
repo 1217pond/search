@@ -100,11 +100,16 @@ function trim(file=false){
     //線を描画
     draw_line(ctx,points,canvas.width,canvas.height);
 
-    let shape_func = (e) => {
+    let shape_func = (e,touch=false) => {
         if(click){
             let rect = e.target.getBoundingClientRect();
-            x = (e.clientX - rect.left)/500;
-            y = (e.clientY - rect.top)/(canvas.height/canvas.width * 500);
+            if(touch){
+                x = (e.changedTouches[0].pageX - rect.left)/500;
+                y = (e.changedTouches[0].pageY - rect.top)/(canvas.height/canvas.width * 500);
+            }else{
+                x = (e.clientX - rect.left)/500;
+                y = (e.clientY - rect.top)/(canvas.height/canvas.width * 500); 
+            }
             let best_distance = 10000;
             let index;
             for(let [i,point] of points.entries()){
@@ -146,7 +151,7 @@ function trim(file=false){
     canvas.addEventListener('mousemove', shape_func);
     canvas.addEventListener('touchmove',(e) => {
         e.preventDefault();
-        shape_func(e);
+        shape_func(e,true);
     });
 
     document.getElementById("trim").addEventListener("click",() => {
@@ -184,11 +189,16 @@ function shape(w,h){
 
         draw_line(pctx,out_points,w,h,shaped_uri);
 
-        let shape_func = (e) => {
+        let shape_func = (e,touch=false) => {
             if(click){
                 let rect = e.target.getBoundingClientRect();
-                x = (e.clientX - rect.left)/500;
-                y = (e.clientY - rect.top)/(preview.height/preview.width * 500);
+                if(touch){
+                x = (e.changedTouches[0].pageX - rect.left)/500;
+                y = (e.changedTouches[0].pageY - rect.top)/(h/w * 500);
+                }else{
+                    x = (e.clientX - rect.left)/500;
+                    y = (e.clientY - rect.top)/(h/w * 500); 
+                }
                 let best_distance = 10000;
                 let index;
                 for(let [i,point] of out_points.entries()){
@@ -229,7 +239,7 @@ function shape(w,h){
         preview.addEventListener('mousemove', shape_func);
         preview.addEventListener('touchmove',(e) => {
             e.preventDefault();
-            shape_func(e);
+            shape_func(e,true);
         });
     });
     document.getElementById("resize").addEventListener("click",() => {
