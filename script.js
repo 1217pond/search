@@ -88,6 +88,7 @@ function trim(file=false){
     }
     canvas.width = setting.width;
     canvas.height = setting.height;
+    canvas.style.height = `${setting.height/setting.width*500}px`;
     canvas_img.width = setting.width;
     canvas_img.height = setting.height;
     let ctx = canvas.getContext("2d");
@@ -146,6 +147,7 @@ function shape(w,h){
     document.getElementById("trim_area").hidden = true;
     document.getElementById("shape_area").hidden = false;
     let preview = document.getElementById("reshaped");
+    preview.style.height = `${canvas_img.height/canvas_img.width*500}px`;
     let img = new Image();
     img.src = canvas_img.toDataURL("image/png");
     img.addEventListener("load",() => {
