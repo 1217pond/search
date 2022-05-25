@@ -1,7 +1,7 @@
 .preview{
   width: 500px;
+  height: auto;
   border: solid 1px #b3b3b3;
-
 }
 table{
   text-align: center;
