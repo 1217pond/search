@@ -81,7 +81,7 @@ function trim(file=false){
             width: img.width,
             height: height
         };
-        console.log(setting);
+        console.log("w:",img.width,",height:",height);
     }else{
         setting = stream.getVideoTracks()[0].getSettings();
         
