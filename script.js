@@ -318,7 +318,7 @@ async function judgement(){
         jyoyo = req.responseText.split("");
     }
 
-    let model = await tf.loadLayersModel("./model/tfjs_model_2/model.json")
+    let model = await tf.loadLayersModel("./model/tfjs_model_2/model.json");
     document.getElementById("state_area").innerHTML = "判定中...";
     for(let i = 0;i<characters;i++){
         //写真
@@ -381,7 +381,7 @@ async function judgement(){
             td.appendChild(in_el);
             char_gets++;
             if(char_gets == characters){
-                document.getElementById("state_area").innerHTML = '判定を完了しました。誤判定があった場合は訂正してから「検索」ボタンを押してください。<button id="search">検索</button>';
+                document.getElementById("state_area").innerHTML = '判定を完了しました。誤判定があった場合は訂正してから「検索」ボタンを押してください。<br>※一番最後の画像のみ取得されず判定ができていない場合は修正してください。<button id="search">検索</button>';
                 document.getElementById("search").onclick = search;
             }
         }
@@ -421,19 +421,19 @@ function search(){
                         }
                     }
                 }
+                let td = document.createElement("td");
                 if(index+1 >= jyukugo.length){
-                    let td = document.createElement("td");
                     td.textContent = "なし";
                     td.style.color = "red";
-                    table.children[0].children[j+4].appendChild(td);
                 }else{
-                    let td = document.createElement("td");
                     td.textContent = jyukugo[index];
-                    table.children[0].children[j+4].appendChild(td);
+                    td.onclick = show_dict;
                 }
+                table.children[0].children[j+4].appendChild(td);
                 index++;
             }
         }
+        document.getElementById("dict").hidden = false;
         document.getElementById("state_area").innerHTML = '検索を完了しました。<br>※数が足りない場合や、熟語が気に入らない場合は、<a href="https://kanji.reader.bz/jukugo_2moji/" target="_blank">二字熟語一覧🔗</a>などを利用してください。';
     }
     
@@ -445,6 +445,10 @@ function search(){
         tr.appendChild(th);
         table.children[0].appendChild(tr);
     }
+}
+
+function show_dict(){
+    document.getElementById("dict").src = `https://www.weblio.jp/content/${encodeURI(this.textContent)}`;
 }
 
 function draw_line(ctx,points,w,h,data_url=false){

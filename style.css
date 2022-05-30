@@ -15,3 +15,9 @@ td,th{
   font-size: 20px;
   width: 50px;
 }
+.side{
+  float: left;
+}
+.box{
+  overflow: hidden;
+}
