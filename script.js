@@ -96,6 +96,7 @@ function trim(file=false){
         canvas_img.getContext("2d").drawImage(document.getElementById("preview_img"),0,0,setting.width,setting.height);
     }else{
         canvas_img.getContext("2d").drawImage(cam_viewer,0,0);
+        stream.getVideoTracks()[0].stop();
     }
     //線を描画
     draw_line(ctx,points,canvas.width,canvas.height);
@@ -345,7 +346,7 @@ async function judgement(){
         let img_ctx = img_cvs.getContext("2d");
         img_ctx.drawImage(
             bin_preview,
-            character_width*i,
+            character_width*i- ((i==characters-1)?1:0),//canvasがはみ出ないように
             0,
             character_width, img_cvs.height,
             0, 0, img_cvs.width, img_cvs.height
