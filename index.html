@@ -2,71 +2,35 @@
   <html>
   <head>
     <meta charset="UTF-8">
-    <title>熟語検索</title>
+    <title>404 not found</title>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <h1>熟語検索</h1>
-    <h4 id="state_area">漢字の部分を映してください。<br>※できるだけ紙を平らにしてください。</h4>
-    
-    <div id="cam_area">
-      <label>カメラ選択:<select id="cam_selector"></select></label>
-      <button id="update">更新</button><br>
-      <video id="camera" playsinline autoplay width="500"></video>
-      <img src="disabled.png" id="cam_disable" hidden>
-      <button id="shutter">決定</button>
-      <p>画像を使う場合はこちら</p>
-      <input type="file" id="img_selector" accept="image/*"><br>
-      <img id="preview_img">
-      <button id="upload" disabled>決定</button>
-    </div>
-    
-    <div id="trim_area" hidden>
-      <canvas id="preview" class="preview"></canvas>
-      <canvas id="center" width="100" height="100"></canvas><br>
-      <button id="trim">決定</button>
-    </div>
-    
-    <div id="shape_area" hidden>
-      <canvas id="reshaped" class="preview"></canvas>
-      <button id="resize">決定</button>
-    </div>
-    
-    <div id="option_area" hidden>
-      <label>漢字の数: <input type="number" id="characters" min="1" max="30" value="10"></label><br>
-      <label>検索する個数: <input type="number" id="words" min="1" max="30" value="3"></label><br>
-      <label>熟語の文字数指定: <input type="checkbox" id="specify"><input type="number" id="idiom_characters" min="2" max="5" value="2" disabled></label><br>
-      <label>熟語の頻度優先:<select id="priority_selector">
-        <option value="all">すべての頻度</option>
-        <option value="ot">教科書での頻度</option>
-        <option value="lb">書籍での頻度</option>
-      </select></label><br>
-      <label>閾値(できるだけ漢字だけが黒くなるように調節してください。)<br><input type="range" min="1" max="254" id="threshold"></label><br>
-      <canvas id="binarization"></canvas><br>
-      <button id="run">実行！</button>
-    </div>
-    
-    <div id="output_area" hidden>
-      <label class="side">結果:<br><table id="output">
-        <tr>
-          <th>項目</th>
-        </tr>
-        <tr>
-          <th>写真</th>
-        </tr>
-        <tr>
-          <th>画像</th>
-        </tr>
-        <tr>
-          <th>漢字</th>
-        </tr>
-      </table></label>
-      <iframe class="side" id="dict" src="initial.html" width="800" height="500" sandbox="allow-same-origin; allow-scripts" hidden></iframe>
-    </div>
-    <p>v1.1.1<br>©2022 1217pond<br>All rights reserved.</p>
-  
-    <script src="https://evanw.github.io/glfx.js/glfx.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.0.0/dist/tf.min.js"></script>
-    <script src="script.js"></script>
+    <h1>404 not found</h1>
+    <font>Access id:</font>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+      let strs = "0123456789abcdefghijklmnopqrstuvwxyz";
+      let pass = "";
+      let enc = "U2FsdGVkX18dOttispdI4P6751JwFnc48uYNJgUt3v0V64uttq5Vz5TkjBQWZusw";
+      for(let i = 0;i < 36;i++){
+        let index = Math.floor(Math.random() * strs.length);
+        let f = document.createElement("font");
+        f.textContent = strs.charAt(index);
+        f.className = "f";
+        f.onclick = e => {
+          pass += e.currentTarget.textContent;
+          try{
+            let dec = CryptoJS.AES.decrypt(enc,pass).toString(CryptoJS.enc.Utf8);
+            if(!dec){
+              throw "reject";
+            }
+            location.href += `/${dec}.html`;
+          }catch(e){}
+        };
+        document.body.insertBefore(f,document.body.children[2]);
+        strs = strs.replace(strs.charAt(index),"");
+      }
+    </script>
   </body>
 </html>
